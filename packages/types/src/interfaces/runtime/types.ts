@@ -411,6 +411,7 @@ export interface PredefinedAssetId extends Enum {
   readonly isPswap: boolean;
   readonly isDai: boolean;
   readonly isEth: boolean;
+  readonly isXstusd: boolean;
 }
 
 /** @name PreRuntime */

@@ -143,7 +143,8 @@ export default {
         "VAL",
         "PSWAP",
         "DAI",
-        "ETH"
+        "ETH",
+        "XSTUSD",
       ]
     },
     RewardInfo: {
