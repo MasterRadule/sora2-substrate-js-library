@@ -226,11 +226,16 @@ function isRegisteredAsset (asset: any, whitelist: Whitelist): boolean {
 }
 
 export async function getAssets (api: ApiPromise, whitelist?: Whitelist): Promise<Array<Asset>> {
-  const assets = (await api.query.assets.assetInfos.entries()).map(([key, codec]) => {
+  const assets = (await api.query.assets.assetInfos.entries()).reduce<Array<Asset>>((array, item) => {
+    const [key, codec] = item
     const [address] = key.toHuman() as any
     const [symbol, name, decimals, _] = codec.toHuman() as any
-    return { address, symbol, name, decimals: +decimals }
-  }) as Array<Asset>
+    const asset = { address, symbol, name, decimals: +decimals } as Asset
+    if (asset.decimals) { // if non zero decimals
+      array.push(asset)
+    }
+    return array
+  }, [])
   return !whitelist ? assets : assets.sort((a, b) => {
     const isNativeA = isNativeAsset(a)
     const isNativeB = isNativeAsset(b)
