@@ -232,7 +232,7 @@ export async function getAssets (api: ApiPromise, whitelist?: Whitelist): Promis
     const [symbol, name, decimals, _] = codec.toHuman() as any
     const asset = { address, symbol, name, decimals: +decimals } as Asset
     if (asset.decimals) { // if non zero decimals
-      array.push(asset)
+      return [...array, asset]
     }
     return array
   }, [])
