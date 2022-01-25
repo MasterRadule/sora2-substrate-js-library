@@ -20,11 +20,6 @@ const TBC_FEE = new FPNumber(0.003);
 
 const MAX = new FPNumber(MaxTotalSupply);
 
-// TBC
-const INITIAL_PRICE = new FPNumber(634);
-const PRICE_CHANGE_COEFF = new FPNumber(1337);
-const SELL_PRICE_COEFF = new FPNumber(0.8);
-
 // 4 registered - pswap and val which are not incentivized
 const incentivizedCurrenciesNum = new FPNumber(2);
 // 2.5 billion pswap reserved for tbc rewards
@@ -51,6 +46,13 @@ export type QuotePayload = {
   };
   issuances: {
     [key: string]: CodecString;
+  };
+  consts: {
+    tbc: {
+      initialPrice: CodecString;
+      priceChangeStep: CodecString;
+      sellPriceCoefficient: CodecString;
+    };
   };
 };
 
