@@ -1090,13 +1090,23 @@ export class Api extends BaseApi {
       ]
       : [];
 
-    return combineLatest([...assetsIssuances, ...assetsPrices, ...tbcReserves, ...xykReserves]).pipe(map(data => {
+    const tbcConsts = [
+      toCodec(this.apiRx.query.multicollateralBondingCurvePool.initialPrice()),
+      toCodec(this.apiRx.query.multicollateralBondingCurvePool.priceChangeStep()),
+      toCodec(this.apiRx.query.multicollateralBondingCurvePool.sellPriceCoefficient()),
+    ];
+
+    return combineLatest([...assetsIssuances, ...assetsPrices, ...tbcReserves, ...xykReserves, ...tbcConsts]).pipe(map(data => {
       let position = assetsIssuances.length;
 
       const issuances: Array<string> = data.slice(0, position);
       const prices: Array<string> = data.slice(position, position += assetsPrices.length);
       const tbc: Array<string> = data.slice(position, position += tbcReserves.length);
       const xyk: Array<[string, string]> = data.slice(position, position += xykReserves.length);
+      const [initialPrice, priceChangeStep, sellPriceCoefficient] = data.slice(
+        position,
+        (position += tbcConsts.length)
+      );
 
       const payload: QuotePayload = {
         reserves: {
@@ -1105,6 +1115,13 @@ export class Api extends BaseApi {
         },
         prices: combineValuesWithKeys(prices, assetsWithPrices),
         issuances: combineValuesWithKeys(issuances, assetsWithIssuances),
+        consts: {
+          tbc: {
+            initialPrice,
+            priceChangeStep,
+            sellPriceCoefficient,
+          },
+        },
       }
 
       return payload;
