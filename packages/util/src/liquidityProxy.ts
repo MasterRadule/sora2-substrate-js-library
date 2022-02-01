@@ -447,6 +447,7 @@ const tbcQuote = (
   }
 };
 
+const XOR_MIN_PRICE = new FPNumber(33);
 // XST quote
 const xstReferencePrice = (assetId: string, payload: QuotePayload): FPNumber => {
   if ([DAI, XSTUSD].includes(assetId)) {
@@ -455,7 +456,7 @@ const xstReferencePrice = (assetId: string, payload: QuotePayload): FPNumber => 
     const avgPrice = FPNumber.fromCodecValue(payload.prices[assetId]);
 
     if (assetId === XOR) {
-      return FPNumber.max(avgPrice, FPNumber.HUNDRED);
+      return FPNumber.max(avgPrice, XOR_MIN_PRICE);
     }
 
     return avgPrice;
