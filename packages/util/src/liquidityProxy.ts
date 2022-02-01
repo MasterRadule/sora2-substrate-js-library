@@ -15,7 +15,7 @@ const ETH = KnownAssets.get(KnownSymbols.ETH).address;
 const XSTUSD = KnownAssets.get(KnownSymbols.XSTUSD).address;
 
 const XYK_FEE = new FPNumber(0.003);
-const XST_FEE = new FPNumber(0.007);
+const XST_FEE = new FPNumber(0.003);
 const TBC_FEE = new FPNumber(0.003);
 
 const MAX = new FPNumber(MaxTotalSupply);
